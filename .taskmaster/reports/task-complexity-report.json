@@ -1,0 +1,37 @@
+{
+	"meta": {
+		"generatedAt": "2025-07-28T08:51:37.147Z",
+		"tasksAnalyzed": 3,
+		"totalTasks": 10,
+		"analysisCount": 3,
+		"thresholdScore": 5,
+		"projectName": "Taskmaster",
+		"usedResearch": false
+	},
+	"complexityAnalysis": [
+		{
+			"taskId": 8,
+			"taskTitle": "매장 관리 및 지도 API 연동",
+			"complexityScore": 8,
+			"recommendedSubtasks": 8,
+			"expansionPrompt": "다음 기능들을 구현하기 위한 세부 작업을 생성해주세요: 1) 관리자용 매장 CRUD 시스템 (주소 검색 포함), 2) Kakao Maps JavaScript API 통합 및 지도 컴포넌트, 3) 공용 매장 찾기 페이지 (지역 필터, 현재 위치 기능), 4) 지도 마커 클러스터링 및 커스텀 마커, 5) 매장 상세 정보 표시 시스템. 각 작업은 독립적으로 개발 가능하도록 분리하고, API 키 설정 및 보안 고려사항을 포함해주세요.",
+			"reasoning": "외부 API(Kakao Maps, Daum Postcode) 연동이 필요하고, 지도 렌더링 성능 최적화, 위치 권한 처리, 복잡한 UI 인터랙션(마커, 클러스터링, 정보창) 등 기술적 복잡도가 높습니다. 관리자와 공용 페이지 양쪽 구현이 필요하며, 각 기능이 독립적으로 개발 가능합니다."
+		},
+		{
+			"taskId": 9,
+			"taskTitle": "이벤트 시스템 및 고급 기능 구현",
+			"complexityScore": 9,
+			"recommendedSubtasks": 10,
+			"expansionPrompt": "다음 시스템들을 구현하기 위한 세부 작업을 생성해주세요: 1) 이벤트 CRUD 및 매장별 적용 관리 시스템, 2) Supabase Edge Functions를 활용한 이메일 알림 서비스, 3) 엑셀 다운로드 기능 (서버 사이드 생성), 4) 관리자 계정 및 권한 관리 시스템, 5) 활동 로그 추적 시스템. 각 기능의 보안 요구사항과 성능 최적화 방안을 포함하고, Edge Functions 배포 및 환경 설정도 고려해주세요.",
+			"reasoning": "여러 고급 기능이 포함되어 있으며, 특히 Edge Functions 설정, 이메일 서비스 구현, 권한 시스템 설계 등이 복잡합니다. 엑셀 생성은 대용량 데이터 처리가 필요하고, 활동 로그는 성능에 영향을 줄 수 있어 신중한 설계가 필요합니다. 각 기능이 서로 연관되어 있어 통합 테스트도 중요합니다."
+		},
+		{
+			"taskId": 10,
+			"taskTitle": "성능 최적화 및 프로덕션 배포",
+			"complexityScore": 10,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "이미 정의된 5개의 서브태스크를 유지하되, 각 작업에 다음 사항을 추가로 고려해주세요: 1) Next.js 15의 최신 최적화 기능 활용 (Partial Prerendering, Server Components), 2) Supabase RLS 정책 검토 및 보안 강화, 3) 프로덕션 환경별 환경변수 관리 전략, 4) 무중단 배포 및 롤백 전략, 5) 성능 벤치마크 기준 설정. 각 단계별로 체크리스트와 검증 방법을 명확히 정의해주세요.",
+			"reasoning": "프로덕션 배포는 모든 측면(성능, 보안, 안정성, 모니터링)을 고려해야 하는 가장 복잡한 작업입니다. 이미 5개의 잘 정의된 서브태스크가 있으므로 추가 분할보다는 각 작업의 품질과 완성도에 집중하는 것이 좋습니다. 특히 보안과 성능은 지속적인 개선이 필요한 영역입니다."
+		}
+	]
+}
