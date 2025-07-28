@@ -1,0 +1,164 @@
+<context>
+# Overview
+힘이나는커피생활 홈페이지 v2.0은 ㈜따름인의 커피 프랜차이즈 브랜드를 위한 웹사이트입니다. 이 시스템은 일반 고객들에게 브랜드 정보와 메뉴를 제공하고, 가맹 희망자들에게 창업 정보를 제공하며, 관리자들이 효율적으로 콘텐츠를 관리할 수 있는 통합 플랫폼입니다. Next.js, Supabase, Prisma, Shadcn UI, Tailwind CSS를 활용하여 현대적이고 반응형인 웹 애플리케이션으로 구축됩니다.
+
+# Core Features
+## 1. 관리자 시스템 (/admin)
+- **인증 시스템**: 관리자 로그인/로그아웃, 세션 관리, 비밀번호 변경 기능
+- **게시물 관리**: 가맹문의 처리, 창업설명회 관리, FAQ 관리
+- **메뉴 관리**: 카테고리 관리, 메뉴 아이템 관리, 신메뉴 포스터 관리
+- **매장 관리**: 매장 정보 CRUD, 운영 상태 관리, 지역별 분류
+- **이벤트 관리**: 이벤트 등록/수정/삭제, 기간 설정, 적용 매장 선택
+- **시스템 관리**: 관리자 계정 관리, 권한 설정
+
+## 2. 공용 홈페이지 (/)
+- **메인 페이지**: 브랜드 소개, 주요 메뉴 하이라이트, 진행중인 이벤트
+- **메뉴 소개**: 카테고리별 메뉴 표시, HOT/COLD 옵션, 가격 정보
+- **매장 찾기**: 지역별 매장 검색, 지도 연동, 매장 상세 정보
+- **이벤트**: 진행중인 이벤트 목록, 상세 내용
+- **가맹 문의**: 가맹 희망자 정보 입력 폼
+- **창업설명회**: 설명회 일정 확인 및 신청
+
+## 3. 공통 기능
+- **파일 업로드**: Drag & Drop 방식, 이미지 미리보기, Supabase Storage 연동
+- **검색 및 필터링**: 다양한 조건별 검색, 상태별 필터링
+- **페이지네이션**: 효율적인 데이터 목록 관리
+
+# User Experience
+## User Personas
+1. **일반 고객**: 메뉴 정보를 찾고 가까운 매장을 검색하는 사용자
+2. **가맹 희망자**: 창업 정보를 찾고 가맹 문의를 하려는 예비 창업자
+3. **관리자**: 홈페이지 콘텐츠를 관리하는 내부 직원
+
+## Key User Flows
+1. **메뉴 탐색**: 홈 → 메뉴 → 카테고리 선택 → 상세 정보 확인
+2. **매장 찾기**: 홈 → 매장 찾기 → 지역 선택 → 지도에서 확인
+3. **가맹 문의**: 홈 → 가맹 문의 → 정보 입력 → 제출
+4. **관리자 작업**: 로그인 → 대시보드 → 원하는 관리 메뉴 → CRUD 작업
+
+## UI/UX Considerations
+- 민트/터키색 계열(#87CEEB) 브랜드 컬러 사용
+- 반응형 디자인으로 모바일/태블릿/데스크톱 최적화
+- 깔끔하고 읽기 쉬운 타이포그래피
+- 직관적인 네비게이션과 사용자 친화적 인터페이스
+</context>
+<PRD>
+# Technical Architecture
+## System Components
+- **Frontend**: Next.js 15 (App Router), React 19, TypeScript
+- **Styling**: Tailwind CSS v4, Shadcn UI 컴포넌트
+- **Backend**: Supabase (PostgreSQL, Auth, Storage)
+- **ORM**: Prisma for type-safe database access
+- **Deployment**: Vercel
+
+## Data Models
+- **Admin**: 관리자 계정 (username, password, name, status)
+- **FranchiseInquiry**: 가맹문의 (name, phone, email, region, content, status)
+- **StartupSession**: 창업설명회 (round, date, location, status)
+- **SessionApplicant**: 설명회 신청자 정보
+- **FAQ**: 자주묻는질문 (category, title, content, status)
+- **Category**: 메뉴 카테고리
+- **Menu**: 메뉴 아이템 (name, price, tags, options, image)
+- **NewMenu**: 신메뉴 포스터
+- **Store**: 매장 정보 (name, region, address, phone, status, options)
+- **Event**: 이벤트 (title, period, content, image, stores)
+
+## APIs and Integrations
+- **Supabase Auth**: 관리자 인증 시스템
+- **Supabase Storage**: 이미지 파일 저장
+- **Daum Postcode API**: 주소 검색 기능
+- **Kakao Maps API**: 매장 위치 표시
+- **Email Service**: 가맹문의 처리 알림 (Supabase Edge Functions)
+
+## Infrastructure Requirements
+- PostgreSQL 데이터베이스 (Supabase 제공)
+- 파일 스토리지 (Supabase Storage)
+- CDN for 이미지 최적화
+- SSL 인증서
+- 도메인 설정
+
+# Development Roadmap
+## Phase 1: Foundation Setup (기본 구조)
+- 프로젝트 초기 설정 (Next.js, Tailwind CSS, Supabase, Prisma)
+- 데이터베이스 스키마 설계 및 마이그레이션
+- 기본 라우팅 구조 설정
+- 공통 컴포넌트 개발 (레이아웃, 네비게이션)
+- Supabase Auth 연동 및 관리자 인증 시스템
+- 관리자 대시보드 기본 UI
+
+## Phase 2: Admin Core Features (관리자 핵심 기능)
+- 관리자 로그인/로그아웃 구현
+- 게시물 관리 시스템 (가맹문의, 창업설명회, FAQ)
+- 메뉴 관리 시스템 (카테고리, 메뉴, 신메뉴)
+- 파일 업로드 기능 구현
+- 검색 및 필터링 기능
+- 페이지네이션 구현
+
+## Phase 3: Public Website (공용 홈페이지)
+- 메인 페이지 디자인 및 구현
+- 메뉴 소개 페이지
+- 매장 찾기 페이지 (지도 API 연동)
+- 이벤트 페이지
+- 가맹 문의 폼
+- 창업설명회 신청 시스템
+
+## Phase 4: Advanced Features (고급 기능)
+- 매장 관리 시스템 완성
+- 이벤트 관리 시스템
+- 관리자 계정 관리
+- 이메일 알림 시스템
+- 신청자 엑셀 다운로드 기능
+
+## Phase 5: Optimization & Deployment (최적화 및 배포)
+- 성능 최적화 (코드 스플리팅, 이미지 최적화)
+- SEO 최적화 (메타 태그, 사이트맵)
+- 보안 강화 (CSRF 보호, 입력값 검증)
+- 테스트 및 버그 수정
+- 프로덕션 배포 설정
+- 모니터링 및 로깅 설정
+
+# Logical Dependency Chain
+1. **기본 인프라 설정** → Supabase 프로젝트, 데이터베이스 스키마, Next.js 프로젝트 구조
+2. **인증 시스템** → 관리자 로그인이 있어야 다른 관리 기능 개발 가능
+3. **공통 컴포넌트** → DataTable, Form 컴포넌트 등이 있어야 CRUD 페이지 구현 가능
+4. **파일 업로드** → 메뉴, 매장, 이벤트 이미지 관리에 필요
+5. **관리자 CRUD 페이지** → 기본 데이터 입력이 가능해야 공용 페이지에서 표시 가능
+6. **공용 페이지** → 관리자가 입력한 데이터를 표시
+7. **외부 API 연동** → 주소 검색, 지도 표시 기능
+8. **고급 기능** → 이메일 알림, 엑셀 다운로드 등
+
+# Risks and Mitigations
+## Technical Challenges
+- **Risk**: Supabase Row Level Security 설정 복잡성
+- **Mitigation**: 초기에는 API 레벨에서 권한 체크, 추후 RLS 적용
+
+## MVP Definition
+- **MVP**: 관리자 로그인 + 메뉴 관리 + 공용 메뉴 페이지
+- **Rationale**: 가장 핵심적인 기능으로 시작하여 점진적 확장
+
+## Resource Constraints
+- **Risk**: 외부 API 사용량 제한 (지도 API, 이메일 발송)
+- **Mitigation**: 캐싱 전략 구현, 사용량 모니터링
+
+## Security Concerns
+- **Risk**: 관리자 권한 남용, SQL Injection
+- **Mitigation**: Prisma ORM 사용, 입력값 검증, 감사 로그
+
+# Appendix
+## Design Reference
+- 참고 사이트: http://www.heemina.com/
+- 브랜드 컬러: #87CEEB (Sky Blue)
+
+## Technical Specifications
+- Node.js 20+ required
+- PostgreSQL 15+
+- 모든 이미지는 WebP 포맷으로 변환 권장
+- 모바일 First 반응형 디자인
+- 한국어 UI/UX 최적화
+
+## Performance Requirements
+- 초기 로딩 시간 3초 이내
+- 이미지 Lazy Loading 적용
+- 검색 결과 1초 이내 표시
+- 동시 접속자 1000명 처리 가능
+</PRD>

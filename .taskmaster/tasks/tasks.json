@@ -1,0 +1,444 @@
+{
+  "master": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "프로젝트 초기 설정 및 인프라 구성",
+        "description": "Next.js 15, Supabase, Prisma, Tailwind CSS v4를 사용한 프로젝트 기본 구조 설정",
+        "details": "1. Next.js 15 App Router 프로젝트 생성\n2. TypeScript, ESLint, Prettier 설정\n3. Tailwind CSS v4 및 Shadcn UI 설치\n4. Supabase 프로젝트 생성 및 환경변수 설정\n5. Prisma ORM 설치 및 초기 설정\n6. 기본 폴더 구조 생성 (/app, /components, /lib, /hooks)\n7. .env.local에 NEXT_PUBLIC_SUPABASE_URL, SUPABASE_ANON_KEY 등 환경변수 설정",
+        "testStrategy": "프로젝트 빌드 성공 여부 확인, 환경변수 로드 테스트, Supabase 연결 테스트",
+        "priority": "high",
+        "dependencies": [],
+        "status": "in-progress",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Next.js 15 프로젝트 생성 및 기본 설정",
+            "description": "Next.js 15 App Router 기반 프로젝트를 생성하고 TypeScript, ESLint, Prettier 등 개발 환경을 구성합니다",
+            "dependencies": [],
+            "details": "npx create-next-app@latest 명령으로 프로젝트 생성 (TypeScript, ESLint, App Router 옵션 선택). .prettierrc 파일 생성하여 코드 포맷팅 규칙 설정. tsconfig.json에 절대 경로 import를 위한 paths 설정 추가. .eslintrc.json에 필요한 린트 규칙 추가",
+            "status": "done",
+            "testStrategy": "npm run build 명령으로 빌드 성공 확인, npm run dev로 개발 서버 정상 작동 확인"
+          },
+          {
+            "id": 2,
+            "title": "Tailwind CSS v4 및 Shadcn UI 설치와 설정",
+            "description": "Tailwind CSS v4를 설치하고 Shadcn UI 컴포넌트 라이브러리를 통합하여 디자인 시스템을 구축합니다",
+            "dependencies": [
+              1
+            ],
+            "details": "npm install -D tailwindcss@next postcss autoprefixer로 Tailwind CSS v4 설치. tailwind.config.ts에서 브랜드 컬러 #87CEEB를 primary로 설정. npx shadcn-ui@latest init 실행하여 Shadcn UI 초기화. globals.css에 Tailwind 디렉티브 추가. components.json에서 컴포넌트 경로 설정",
+            "status": "in-progress",
+            "testStrategy": "Tailwind 클래스가 적용되는지 확인, Shadcn UI Button 컴포넌트 설치 후 렌더링 테스트"
+          },
+          {
+            "id": 3,
+            "title": "Supabase 프로젝트 생성 및 환경변수 설정",
+            "description": "Supabase 프로젝트를 생성하고 Next.js와 연동하기 위한 환경변수 및 클라이언트를 설정합니다",
+            "dependencies": [
+              1
+            ],
+            "details": "Supabase 대시보드에서 새 프로젝트 생성. .env.local 파일 생성하여 NEXT_PUBLIC_SUPABASE_URL, SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY 환경변수 추가. @supabase/supabase-js 패키지 설치. /lib/supabase 폴더에 client.ts와 server.ts 파일 생성하여 클라이언트 초기화 코드 작성",
+            "status": "pending",
+            "testStrategy": "Supabase 클라이언트 연결 테스트, 환경변수 로드 확인, API 호출 테스트"
+          },
+          {
+            "id": 4,
+            "title": "Prisma ORM 설치 및 초기 설정",
+            "description": "Prisma ORM을 설치하고 Supabase 데이터베이스와 연동하기 위한 초기 설정을 진행합니다",
+            "dependencies": [
+              3
+            ],
+            "details": "npm install prisma @prisma/client로 Prisma 설치. npx prisma init 실행하여 prisma 폴더와 schema.prisma 생성. .env에 DATABASE_URL 추가 (Supabase 프로젝트의 PostgreSQL 연결 문자열 사용). schema.prisma에 provider를 postgresql로, previewFeatures 설정 추가. /lib/prisma.ts 파일 생성하여 PrismaClient 싱글톤 패턴 구현",
+            "status": "pending",
+            "testStrategy": "npx prisma db pull로 연결 테스트, PrismaClient 인스턴스 생성 확인"
+          },
+          {
+            "id": 5,
+            "title": "프로젝트 폴더 구조 생성 및 기본 파일 구성",
+            "description": "표준화된 폴더 구조를 생성하고 각 폴더에 필요한 기본 파일들을 배치합니다",
+            "dependencies": [
+              1,
+              2,
+              3,
+              4
+            ],
+            "details": "/app 하위에 admin, (public) 라우트 그룹 생성. /components에 ui, shared, admin 폴더 구분. /lib에 utils.ts, prisma.ts, supabase 폴더 배치. /hooks 폴더에 useAuth.ts 등 커스텀 훅 파일 준비. /types 폴더 생성하여 TypeScript 타입 정의 파일 관리. 각 폴더에 index.ts 또는 README.md 파일 추가하여 구조 명확화",
+            "status": "pending",
+            "testStrategy": "폴더 구조 검증 스크립트 작성, 각 경로의 import/export 정상 작동 확인"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "title": "데이터베이스 스키마 설계 및 마이그레이션",
+        "description": "Prisma를 사용하여 전체 데이터 모델 정의 및 Supabase 데이터베이스 마이그레이션",
+        "details": "1. prisma/schema.prisma 파일에 모든 모델 정의:\n   - Admin (관리자)\n   - FranchiseInquiry (가맹문의)\n   - StartupSession (창업설명회)\n   - SessionApplicant (설명회 신청자)\n   - FAQ\n   - Category (메뉴 카테고리)\n   - Menu (메뉴 아이템)\n   - NewMenu (신메뉴)\n   - Store (매장)\n   - Event (이벤트)\n2. npx prisma migrate dev 실행\n3. Supabase 대시보드에서 테이블 확인\n4. 필요한 인덱스 추가",
+        "testStrategy": "Prisma Studio로 데이터베이스 구조 확인, 각 테이블 CRUD 테스트, 관계 설정 검증",
+        "priority": "high",
+        "dependencies": [
+          1
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Admin 및 인증 관련 모델 정의",
+            "description": "관리자 인증과 권한 관리를 위한 기본 모델들을 Prisma 스키마에 정의",
+            "dependencies": [],
+            "details": "prisma/schema.prisma 파일에 다음 모델들을 정의:\n- Admin 모델: id, email, password (해시), name, role (enum: SUPER_ADMIN, ADMIN), createdAt, updatedAt\n- AdminSession 모델: 관리자 세션 추적용 (id, adminId, token, expiresAt, createdAt)\n- AdminLog 모델: 관리자 활동 로그 (id, adminId, action, ipAddress, userAgent, createdAt)\n- 필요한 인덱스 추가: email(unique), token(unique)",
+            "status": "pending",
+            "testStrategy": "npx prisma validate로 스키마 유효성 검증, npx prisma studio로 생성된 테이블 구조 확인"
+          },
+          {
+            "id": 2,
+            "title": "비즈니스 핵심 모델 정의",
+            "description": "가맹점 문의, 창업설명회, FAQ 등 핵심 비즈니스 로직을 위한 모델 정의",
+            "dependencies": [],
+            "details": "다음 모델들을 정의:\n- FranchiseInquiry: id, name, phone, email, area, budget, message, status(enum: PENDING, CONTACTED, COMPLETED), createdAt, updatedAt\n- StartupSession: id, title, date, time, location, maxApplicants, currentApplicants, status(enum: SCHEDULED, COMPLETED, CANCELLED), createdAt\n- SessionApplicant: id, sessionId(FK), name, phone, email, attendanceStatus, createdAt\n- FAQ: id, category, question, answer, order, isActive, createdAt, updatedAt\n- 관계 설정: StartupSession 1:N SessionApplicant",
+            "status": "pending",
+            "testStrategy": "관계 설정 검증을 위한 쿼리 테스트, CASCADE 옵션 동작 확인"
+          },
+          {
+            "id": 3,
+            "title": "메뉴 및 카테고리 모델 정의",
+            "description": "메뉴 시스템을 위한 카테고리, 메뉴 아이템, 신메뉴 관련 모델 정의",
+            "dependencies": [],
+            "details": "다음 모델들을 정의:\n- Category: id, name, slug, order, isActive, createdAt, updatedAt\n- Menu: id, categoryId(FK), name, description, price, imageUrl, isPopular, isNew, allergyInfo, nutritionInfo(JSON), order, isActive, createdAt, updatedAt\n- NewMenu: id, name, description, imageUrl, launchDate, endDate, isActive, createdAt\n- 관계 설정: Category 1:N Menu\n- 인덱스: categoryId, slug(unique), isActive",
+            "status": "pending",
+            "testStrategy": "카테고리별 메뉴 조회 성능 테스트, JSON 필드 저장/조회 검증"
+          },
+          {
+            "id": 4,
+            "title": "매장 및 이벤트 모델 정의",
+            "description": "매장 정보와 이벤트 관리를 위한 모델 정의 및 위치 기반 검색 지원",
+            "dependencies": [],
+            "details": "다음 모델들을 정의:\n- Store: id, name, address, phone, businessHours(JSON), latitude(Float), longitude(Float), region, imageUrl, isOpen, createdAt, updatedAt\n- Event: id, title, description, imageUrl, startDate, endDate, eventType(enum: PROMOTION, NEW_MENU, NOTICE), targetStores(JSON array), isActive, viewCount(default: 0), createdAt, updatedAt\n- 인덱스: region, isOpen, 위치 기반 검색을 위한 복합 인덱스(latitude, longitude)\n- 전체 텍스트 검색을 위한 인덱스 추가",
+            "status": "pending",
+            "testStrategy": "위치 기반 매장 검색 쿼리 성능 테스트, 이벤트 날짜 필터링 검증"
+          },
+          {
+            "id": 5,
+            "title": "마이그레이션 실행 및 검증",
+            "description": "정의된 모든 스키마를 Supabase 데이터베이스에 마이그레이션하고 최종 검증 수행",
+            "dependencies": [],
+            "details": "1. npx prisma migrate dev --name initial_schema 실행하여 마이그레이션 생성\n2. Supabase 대시보드에서 생성된 테이블 구조 확인\n3. 추가 인덱스 생성 SQL 실행 (위치 기반 검색, 전체 텍스트 검색)\n4. RLS(Row Level Security) 정책 설정 검토\n5. npx prisma generate로 Prisma Client 생성\n6. 시드 데이터 스크립트 작성 (prisma/seed.ts)\n7. npx prisma db seed로 초기 데이터 투입",
+            "status": "pending",
+            "testStrategy": "모든 테이블 CRUD 작업 통합 테스트, 관계 무결성 검증, 인덱스 성능 측정"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "title": "Supabase Auth 연동 및 관리자 인증 시스템",
+        "description": "관리자 로그인/로그아웃 기능 구현 및 세션 관리",
+        "details": "1. Supabase Auth 클라이언트 설정 (/lib/supabase/client.ts, /lib/supabase/server.ts)\n2. 관리자 로그인 페이지 구현 (/app/admin/login/page.tsx)\n3. Auth 미들웨어 구현 (middleware.ts)\n4. useAuth 커스텀 훅 생성\n5. 관리자 세션 관리 및 리프레시 토큰 처리\n6. 로그아웃 기능 구현\n7. 비밀번호 변경 기능 추가",
+        "testStrategy": "로그인/로그아웃 플로우 테스트, 세션 만료 처리 테스트, 보호된 라우트 접근 테스트",
+        "priority": "high",
+        "dependencies": [
+          2
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Supabase Auth 클라이언트 설정 구현",
+            "description": "브라우저와 서버 환경에서 사용할 Supabase Auth 클라이언트 초기화 및 설정",
+            "dependencies": [],
+            "details": "1. /lib/supabase/client.ts 파일 생성하여 createBrowserClient 함수로 브라우저용 클라이언트 설정\n2. /lib/supabase/server.ts 파일 생성하여 createServerClient 함수로 서버 컴포넌트용 클라이언트 설정\n3. 쿠키 기반 세션 관리를 위한 설정 추가\n4. 환경변수(NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY) 활용\n5. 타입 안전성을 위한 Database 타입 정의 및 적용",
+            "status": "pending",
+            "testStrategy": "클라이언트 인스턴스 생성 테스트, 환경변수 로드 확인, 타입 체크 검증"
+          },
+          {
+            "id": 2,
+            "title": "Auth 미들웨어 및 보호된 라우트 구현",
+            "description": "Next.js 미들웨어를 사용하여 관리자 인증이 필요한 라우트 보호",
+            "dependencies": [],
+            "details": "1. middleware.ts 파일 생성하여 /admin/* 경로 보호\n2. Supabase 세션 확인 로직 구현\n3. 인증되지 않은 사용자를 /admin/login으로 리다이렉트\n4. 세션 리프레시 토큰 자동 갱신 처리\n5. matcher 설정으로 공개 라우트와 보호된 라우트 구분\n6. CORS 및 보안 헤더 설정 추가",
+            "status": "pending",
+            "testStrategy": "인증된/인증되지 않은 사용자의 라우트 접근 테스트, 세션 만료 시나리오 테스트"
+          },
+          {
+            "id": 3,
+            "title": "useAuth 커스텀 훅 및 AuthContext 구현",
+            "description": "클라이언트 컴포넌트에서 인증 상태를 관리할 수 있는 React Context와 훅 개발",
+            "dependencies": [],
+            "details": "1. /contexts/AuthContext.tsx 파일 생성하여 AuthProvider 구현\n2. /hooks/useAuth.ts 파일에 useAuth 훅 구현\n3. 로그인, 로그아웃, 세션 확인 함수 제공\n4. 실시간 세션 상태 변경 감지 (onAuthStateChange)\n5. 로딩 상태 및 에러 처리 포함\n6. TypeScript로 User 타입 정의 및 적용",
+            "status": "pending",
+            "testStrategy": "훅 렌더링 테스트, 상태 변경 시나리오 테스트, 에러 처리 검증"
+          },
+          {
+            "id": 4,
+            "title": "관리자 로그인 페이지 UI 구현",
+            "description": "Shadcn UI를 활용한 관리자 로그인 폼 및 페이지 구현",
+            "dependencies": [],
+            "details": "1. /app/admin/login/page.tsx 파일 생성\n2. react-hook-form과 zod를 사용한 폼 검증\n3. 이메일/비밀번호 입력 필드 및 에러 메시지 표시\n4. 로그인 버튼 및 로딩 상태 처리\n5. 브랜드 컬러(#87CEEB) 적용한 디자인\n6. 로그인 성공 시 /admin/dashboard로 리다이렉트\n7. 에러 토스트 메시지 표시 기능",
+            "status": "pending",
+            "testStrategy": "폼 유효성 검증 테스트, 로그인 성공/실패 시나리오 테스트, UI 반응형 테스트"
+          },
+          {
+            "id": 5,
+            "title": "로그아웃 및 비밀번호 변경 기능 구현",
+            "description": "관리자 로그아웃 기능과 비밀번호 변경 기능 개발",
+            "dependencies": [],
+            "details": "1. 관리자 레이아웃에 로그아웃 버튼 추가\n2. useAuth 훅의 signOut 함수 활용\n3. /app/admin/profile/page.tsx에 비밀번호 변경 폼 구현\n4. updatePassword API 호출 및 에러 처리\n5. 비밀번호 강도 검증 로직 추가\n6. 세션 쿠키 클리어 및 로컬 스토리지 정리\n7. 로그아웃 후 로그인 페이지로 리다이렉트",
+            "status": "pending",
+            "testStrategy": "로그아웃 플로우 테스트, 비밀번호 변경 성공/실패 테스트, 세션 정리 확인"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "title": "공통 컴포넌트 및 레이아웃 시스템 구축",
+        "description": "관리자와 공용 페이지에서 사용할 공통 UI 컴포넌트 개발",
+        "details": "1. 관리자 레이아웃 컴포넌트 (/app/admin/layout.tsx)\n2. 공용 페이지 레이아웃 (/app/(public)/layout.tsx)\n3. 네비게이션 컴포넌트 (사이드바, 헤더)\n4. DataTable 컴포넌트 (검색, 필터, 페이지네이션 포함)\n5. Form 컴포넌트 (react-hook-form + zod)\n6. Modal, Toast, Loading 컴포넌트\n7. 브랜드 컬러(#87CEEB) 적용한 테마 설정",
+        "testStrategy": "Storybook으로 컴포넌트 단위 테스트, 반응형 디자인 테스트, 접근성 검증",
+        "priority": "medium",
+        "dependencies": [
+          3
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 5,
+        "title": "파일 업로드 시스템 구현",
+        "description": "Supabase Storage를 활용한 이미지 업로드 및 관리 기능",
+        "details": "1. Supabase Storage 버킷 생성 (menus, stores, events)\n2. 파일 업로드 컴포넌트 구현 (Drag & Drop 지원)\n3. 이미지 미리보기 기능\n4. 파일 크기 및 형식 검증\n5. 업로드 진행률 표시\n6. 이미지 URL 생성 및 저장\n7. 이미지 삭제 기능\n8. WebP 변환 옵션 추가",
+        "testStrategy": "다양한 파일 형식 업로드 테스트, 대용량 파일 처리 테스트, 동시 업로드 테스트",
+        "priority": "medium",
+        "dependencies": [
+          4
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 6,
+        "title": "관리자 CRUD 페이지 구현",
+        "description": "가맹문의, FAQ, 메뉴, 매장 등 관리자 페이지 전체 구현",
+        "details": "1. 가맹문의 관리 (/app/admin/inquiries)\n2. 창업설명회 관리 (/app/admin/sessions)\n3. FAQ 관리 (/app/admin/faq)\n4. 메뉴 카테고리 관리 (/app/admin/categories)\n5. 메뉴 아이템 관리 (/app/admin/menus)\n6. 신메뉴 포스터 관리 (/app/admin/new-menus)\n7. 각 페이지에 목록, 상세, 생성, 수정, 삭제 기능 구현\n8. Server Actions 사용하여 API 구현",
+        "testStrategy": "각 CRUD 작업 E2E 테스트, 데이터 무결성 검증, 권한 체크 테스트",
+        "priority": "high",
+        "dependencies": [
+          5
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "관리자 인증 미들웨어 및 공통 컴포넌트 구현",
+            "description": "모든 관리자 페이지에서 사용할 인증 체크 미들웨어와 CRUD 공통 컴포넌트 개발",
+            "dependencies": [],
+            "details": "1. /app/admin/layout.tsx에 인증 체크 로직 구현\n2. /lib/auth/admin-auth.ts에서 관리자 세션 검증\n3. /components/admin/DataTable.tsx - 공통 테이블 컴포넌트\n4. /components/admin/FormDialog.tsx - 생성/수정 모달 컴포넌트\n5. /components/admin/DeleteDialog.tsx - 삭제 확인 모달\n6. /components/admin/PageHeader.tsx - 페이지 헤더 컴포넌트\n7. Server Actions 기본 구조 설정 (/lib/actions/base-actions.ts)",
+            "status": "pending",
+            "testStrategy": "인증 미들웨어 단위 테스트, 비인증 접근 차단 테스트, 컴포넌트 렌더링 테스트"
+          },
+          {
+            "id": 2,
+            "title": "가맹문의 및 창업설명회 관리 페이지 구현",
+            "description": "가맹문의 목록/상세 조회와 창업설명회 일정 관리 및 신청자 관리 기능 개발",
+            "dependencies": [
+              1
+            ],
+            "details": "1. /app/admin/inquiries/page.tsx - 가맹문의 목록 페이지\n2. /app/admin/inquiries/[id]/page.tsx - 가맹문의 상세 페이지\n3. /lib/actions/inquiry-actions.ts - 가맹문의 Server Actions\n4. /app/admin/sessions/page.tsx - 창업설명회 목록\n5. /app/admin/sessions/create/page.tsx - 설명회 생성\n6. /app/admin/sessions/[id]/page.tsx - 설명회 상세 및 신청자 목록\n7. /lib/actions/session-actions.ts - 설명회 Server Actions\n8. 신청 상태 변경 기능 (대기/승인/거절)",
+            "status": "pending",
+            "testStrategy": "가맹문의 CRUD 테스트, 설명회 일정 중복 검증, 신청자 상태 변경 테스트"
+          },
+          {
+            "id": 3,
+            "title": "FAQ 관리 시스템 구현",
+            "description": "FAQ 카테고리별 관리, 순서 변경, 노출 여부 설정 기능 개발",
+            "dependencies": [
+              1
+            ],
+            "details": "1. /app/admin/faq/page.tsx - FAQ 목록 (카테고리별 탭)\n2. /app/admin/faq/create/page.tsx - FAQ 생성 페이지\n3. /app/admin/faq/[id]/edit/page.tsx - FAQ 수정 페이지\n4. /lib/actions/faq-actions.ts - FAQ Server Actions\n5. 드래그 앤 드롭으로 순서 변경 구현 (react-beautiful-dnd)\n6. 카테고리 필터링 및 검색 기능\n7. 노출/비노출 토글 기능\n8. 일괄 삭제 기능",
+            "status": "pending",
+            "testStrategy": "FAQ CRUD 테스트, 순서 변경 저장 테스트, 카테고리 필터링 테스트"
+          },
+          {
+            "id": 4,
+            "title": "메뉴 카테고리 및 아이템 관리 페이지 구현",
+            "description": "메뉴 카테고리 관리와 카테고리별 메뉴 아이템 CRUD 기능 개발",
+            "dependencies": [
+              1
+            ],
+            "details": "1. /app/admin/categories/page.tsx - 카테고리 목록 및 관리\n2. /lib/actions/category-actions.ts - 카테고리 Server Actions\n3. /app/admin/menus/page.tsx - 메뉴 목록 (카테고리별 표시)\n4. /app/admin/menus/create/page.tsx - 메뉴 생성 (이미지 업로드)\n5. /app/admin/menus/[id]/edit/page.tsx - 메뉴 수정\n6. /lib/actions/menu-actions.ts - 메뉴 Server Actions\n7. Supabase Storage를 활용한 이미지 업로드\n8. 메뉴 품절/판매중 상태 관리",
+            "status": "pending",
+            "testStrategy": "카테고리 CRUD 테스트, 메뉴 이미지 업로드 테스트, 카테고리별 메뉴 필터링 테스트"
+          },
+          {
+            "id": 5,
+            "title": "신메뉴 포스터 관리 및 통합 대시보드 구현",
+            "description": "신메뉴 포스터 관리 기능과 전체 관리 현황을 보여주는 대시보드 개발",
+            "dependencies": [
+              2,
+              3,
+              4
+            ],
+            "details": "1. /app/admin/new-menus/page.tsx - 신메뉴 포스터 목록\n2. /app/admin/new-menus/create/page.tsx - 포스터 업로드\n3. /lib/actions/new-menu-actions.ts - 신메뉴 Server Actions\n4. 포스터 이미지 크롭 기능 (react-image-crop)\n5. /app/admin/page.tsx - 관리자 대시보드\n6. 가맹문의 통계, 설명회 신청 현황 위젯\n7. 최근 활동 로그 표시\n8. 빠른 액세스 메뉴 구현",
+            "status": "pending",
+            "testStrategy": "포스터 업로드 및 크롭 테스트, 대시보드 데이터 정확도 테스트, 위젯 렌더링 성능 테스트"
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "title": "공용 홈페이지 핵심 페이지 구현",
+        "description": "메인 페이지, 메뉴 소개, 가맹 문의 등 고객 대면 페이지 개발",
+        "details": "1. 메인 페이지 구현 (히어로 섹션, 메뉴 하이라이트, 이벤트 배너)\n2. 메뉴 소개 페이지 (카테고리별 표시, HOT/COLD 필터)\n3. 가맹 문의 폼 페이지\n4. 창업설명회 신청 페이지\n5. FAQ 페이지\n6. 반응형 디자인 적용\n7. 이미지 최적화 (next/image 사용)\n8. 메타 태그 설정",
+        "testStrategy": "모바일/태블릿/데스크톱 반응형 테스트, 폼 제출 테스트, 페이지 로딩 속도 측정",
+        "priority": "high",
+        "dependencies": [
+          6
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "메인 페이지 히어로 섹션 및 네비게이션 구현",
+            "description": "홈페이지의 첫인상을 결정하는 히어로 섹션과 전체 사이트 네비게이션을 구현합니다.",
+            "dependencies": [],
+            "details": "1. app/page.tsx에 히어로 섹션 구현 (배경 이미지, 메인 카피, CTA 버튼)\n2. components/layout/Header.tsx 생성 (로고, 메뉴 네비게이션, 가맹문의 버튼)\n3. components/layout/Footer.tsx 생성 (회사 정보, 빠른 링크, SNS 링크)\n4. 반응형 모바일 메뉴 구현 (햄버거 메뉴, 슬라이드 네비게이션)\n5. next/image를 사용한 이미지 최적화\n6. Tailwind CSS v4로 애니메이션 효과 추가",
+            "status": "pending",
+            "testStrategy": "반응형 디자인 테스트 (375px, 768px, 1024px, 1440px), 네비게이션 링크 작동 확인, 이미지 로딩 속도 측정"
+          },
+          {
+            "id": 2,
+            "title": "메뉴 소개 페이지 및 필터링 기능 구현",
+            "description": "카테고리별 메뉴 표시와 HOT/COLD 필터링 기능을 갖춘 메뉴 소개 페이지를 개발합니다.",
+            "dependencies": [],
+            "details": "1. app/menu/page.tsx 생성 (메뉴 리스트 페이지)\n2. components/menu/MenuCard.tsx 구현 (메뉴 아이템 카드 컴포넌트)\n3. components/menu/CategoryFilter.tsx 구현 (카테고리 필터 버튼)\n4. components/menu/TemperatureFilter.tsx 구현 (HOT/COLD 토글)\n5. Prisma를 통한 메뉴 데이터 조회 API 생성 (app/api/menu/route.ts)\n6. 메뉴 이미지 lazy loading 및 placeholder 구현\n7. 신메뉴 배지 표시 기능",
+            "status": "pending",
+            "testStrategy": "필터 기능 작동 테스트, 메뉴 데이터 로딩 성능 측정, 이미지 lazy loading 확인"
+          },
+          {
+            "id": 3,
+            "title": "가맹 문의 및 창업설명회 신청 폼 구현",
+            "description": "가맹 문의와 창업설명회 신청을 위한 폼 페이지와 데이터 처리 로직을 구현합니다.",
+            "dependencies": [],
+            "details": "1. app/franchise/page.tsx 생성 (가맹 문의 폼)\n2. app/startup-session/page.tsx 생성 (창업설명회 신청)\n3. components/forms/FranchiseForm.tsx 구현 (React Hook Form 사용)\n4. components/forms/SessionForm.tsx 구현 (날짜 선택, 참가 인원 입력)\n5. app/api/franchise/route.ts 생성 (가맹 문의 저장 API)\n6. app/api/startup-session/route.ts 생성 (설명회 신청 API)\n7. 폼 유효성 검증 및 에러 메시지 처리\n8. 제출 성공 시 확인 모달 표시",
+            "status": "pending",
+            "testStrategy": "폼 유효성 검증 테스트, API 엔드포인트 테스트, 데이터베이스 저장 확인"
+          },
+          {
+            "id": 4,
+            "title": "FAQ 페이지 및 검색 기능 구현",
+            "description": "자주 묻는 질문을 카테고리별로 정리하고 검색 가능한 FAQ 페이지를 개발합니다.",
+            "dependencies": [],
+            "details": "1. app/faq/page.tsx 생성 (FAQ 메인 페이지)\n2. components/faq/FAQItem.tsx 구현 (아코디언 형태의 Q&A 컴포넌트)\n3. components/faq/FAQSearch.tsx 구현 (실시간 검색 기능)\n4. components/faq/CategoryTabs.tsx 구현 (카테고리별 탭 네비게이션)\n5. app/api/faq/route.ts 생성 (FAQ 데이터 조회 API)\n6. 검색어 하이라이팅 기능 구현\n7. 질문 클릭 시 부드러운 확장 애니메이션",
+            "status": "pending",
+            "testStrategy": "검색 기능 정확도 테스트, 아코디언 UI 작동 확인, 카테고리 필터링 테스트"
+          },
+          {
+            "id": 5,
+            "title": "SEO 최적화 및 메타데이터 설정",
+            "description": "모든 페이지에 대한 SEO 최적화와 소셜 미디어 공유를 위한 메타데이터를 설정합니다.",
+            "dependencies": [],
+            "details": "1. app/layout.tsx에 기본 메타데이터 설정\n2. 각 페이지별 동적 메타데이터 생성 (generateMetadata 함수)\n3. Open Graph 태그 설정 (og:title, og:description, og:image)\n4. Twitter Card 메타 태그 추가\n5. 구조화된 데이터 마크업 추가 (JSON-LD)\n6. sitemap.ts 생성 (동적 사이트맵 생성)\n7. robots.txt 설정\n8. 페이지별 canonical URL 설정",
+            "status": "pending",
+            "testStrategy": "메타 태그 검증 도구 사용, 소셜 미디어 미리보기 테스트, 구글 검색 콘솔 확인"
+          }
+        ]
+      },
+      {
+        "id": 8,
+        "title": "매장 관리 및 지도 API 연동",
+        "description": "매장 정보 관리 시스템과 Kakao Maps API를 활용한 매장 찾기 기능",
+        "details": "1. 매장 관리 페이지 구현 (/app/admin/stores)\n2. Daum Postcode API 연동 (주소 검색)\n3. Kakao Maps API 설정 및 연동\n4. 매장 찾기 페이지 구현 (/app/stores)\n5. 지역별 필터링 기능\n6. 지도 마커 및 정보창 표시\n7. 현재 위치 기반 가까운 매장 찾기\n8. 매장 상세 정보 모달",
+        "testStrategy": "주소 검색 정확도 테스트, 지도 렌더링 성능 테스트, 위치 권한 처리 테스트",
+        "priority": "medium",
+        "dependencies": [
+          7
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 9,
+        "title": "이벤트 시스템 및 고급 기능 구현",
+        "description": "이벤트 관리, 이메일 알림, 엑셀 다운로드 등 고급 기능 개발",
+        "details": "1. 이벤트 관리 시스템 구현 (/app/admin/events)\n2. 이벤트별 적용 매장 선택 기능\n3. 이벤트 기간 설정 및 자동 종료\n4. Supabase Edge Functions로 이메일 알림 구현\n5. 신청자 목록 엑셀 다운로드 (xlsx 라이브러리 사용)\n6. 관리자 계정 관리 페이지\n7. 권한 레벨 설정 기능\n8. 활동 로그 기록",
+        "testStrategy": "이메일 발송 테스트, 엑셀 파일 생성 및 다운로드 테스트, 권한별 접근 제어 테스트",
+        "priority": "medium",
+        "dependencies": [
+          8
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 10,
+        "title": "성능 최적화 및 프로덕션 배포",
+        "description": "애플리케이션 최적화, 보안 강화, 배포 환경 설정",
+        "details": "1. 코드 스플리팅 및 동적 임포트 적용\n2. 이미지 최적화 (WebP 변환, lazy loading)\n3. SEO 최적화 (sitemap.xml, robots.txt)\n4. 보안 헤더 설정 (CSP, HSTS)\n5. 입력값 검증 강화 (XSS, SQL Injection 방지)\n6. Vercel 배포 설정\n7. 환경변수 및 도메인 설정\n8. 모니터링 설정 (Vercel Analytics)\n9. 에러 로깅 시스템 구축",
+        "testStrategy": "Lighthouse 성능 점수 측정, 보안 취약점 스캔, 부하 테스트, 프로덕션 환경 E2E 테스트",
+        "priority": "high",
+        "dependencies": [
+          9
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "코드 스플리팅 및 동적 임포트 최적화",
+            "description": "Next.js의 동적 임포트와 React.lazy를 활용한 번들 크기 최적화 및 초기 로딩 속도 개선",
+            "dependencies": [],
+            "details": "1. 각 페이지 컴포넌트를 dynamic import로 변경\n2. 대용량 라이브러리(chart.js, xlsx 등)를 필요한 시점에만 로드\n3. route.segment 기반 코드 스플리팅 적용\n4. loading.tsx 파일 생성으로 스켈레톤 UI 구현\n5. bundle-analyzer를 사용하여 번들 크기 분석 및 최적화",
+            "status": "pending",
+            "testStrategy": "Lighthouse 성능 점수 측정, First Contentful Paint(FCP) 및 Time to Interactive(TTI) 개선 확인"
+          },
+          {
+            "id": 2,
+            "title": "이미지 최적화 및 SEO 설정",
+            "description": "Next.js Image 컴포넌트 활용, WebP 변환, lazy loading 적용 및 SEO 메타데이터 구성",
+            "dependencies": [
+              1
+            ],
+            "details": "1. 모든 이미지를 Next.js Image 컴포넌트로 마이그레이션\n2. sharp 패키지로 이미지 자동 최적화 설정\n3. 메타데이터 API를 활용한 동적 SEO 태그 생성\n4. sitemap.xml 자동 생성 함수 구현 (/app/sitemap.ts)\n5. robots.txt 생성 및 구조화된 데이터(JSON-LD) 추가\n6. Open Graph 및 Twitter Card 메타 태그 설정",
+            "status": "pending",
+            "testStrategy": "Google PageSpeed Insights 점수 확인, 구조화된 데이터 테스트 도구 검증"
+          },
+          {
+            "id": 3,
+            "title": "보안 강화 및 입력값 검증 시스템 구축",
+            "description": "보안 헤더 설정, XSS 및 SQL Injection 방지를 위한 입력값 검증 미들웨어 구현",
+            "dependencies": [
+              2
+            ],
+            "details": "1. middleware.ts에서 보안 헤더 설정 (CSP, HSTS, X-Frame-Options)\n2. zod 스키마를 활용한 모든 API 라우트 입력값 검증\n3. DOMPurify로 사용자 입력 HTML 새니타이징\n4. Rate limiting 미들웨어 구현 (upstash/ratelimit 사용)\n5. CORS 정책 설정 및 허용 도메인 관리\n6. SQL 쿼리 파라미터 바인딩 확인",
+            "status": "pending",
+            "testStrategy": "OWASP ZAP 스캔, 보안 헤더 검증, SQL Injection 테스트 케이스 실행"
+          },
+          {
+            "id": 4,
+            "title": "Vercel 배포 환경 구성 및 환경변수 설정",
+            "description": "Vercel 프로젝트 생성, 환경변수 설정, 도메인 연결 및 배포 파이프라인 구축",
+            "dependencies": [
+              3
+            ],
+            "details": "1. Vercel CLI 설치 및 프로젝트 연결\n2. 프로덕션 환경변수 설정 (Supabase, Kakao API 키 등)\n3. 커스텀 도메인 연결 및 SSL 인증서 설정\n4. Preview 배포 환경 구성\n5. GitHub Actions를 통한 자동 배포 워크플로우 작성\n6. 배포 전 빌드 최적화 설정 (turbo, swc)",
+            "status": "pending",
+            "testStrategy": "프로덕션 빌드 성공 확인, 환경변수 로드 테스트, 도메인 접속 테스트"
+          },
+          {
+            "id": 5,
+            "title": "모니터링 및 에러 로깅 시스템 구축",
+            "description": "Vercel Analytics 설정, 에러 추적 시스템 구현 및 실시간 모니터링 대시보드 구성",
+            "dependencies": [
+              4
+            ],
+            "details": "1. Vercel Analytics 및 Speed Insights 통합\n2. Sentry 에러 추적 시스템 설정\n3. 커스텀 에러 바운더리 컴포넌트 구현\n4. 서버/클라이언트 에러 로깅 분리\n5. Supabase 로그 테이블 생성 및 중요 이벤트 기록\n6. 실시간 대시보드 구성 (사용자 활동, 에러율, 성능 지표)\n7. 알림 설정 (에러율 급증, 서버 다운 등)",
+            "status": "pending",
+            "testStrategy": "의도적 에러 발생 후 로깅 확인, 대시보드 데이터 정확성 검증, 알림 시스템 테스트"
+          }
+        ]
+      }
+    ],
+    "metadata": {
+      "created": "2025-07-28T05:06:22.784Z",
+      "updated": "2025-07-28T06:28:59.226Z",
+      "description": "Tasks for master context"
+    }
+  }
+}
