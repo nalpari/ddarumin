@@ -28,7 +28,6 @@
     "@radix-ui/react-slot": "^1.2.3",
     "@supabase/ssr": "^0.6.1",
     "@supabase/supabase-js": "^2.52.1",
-    "@tailwindcss/postcss": "^4.0.0",
     "@tanstack/react-table": "^8.21.3",
     "@types/bcryptjs": "^2.4.6",
     "bcryptjs": "^3.0.2",
@@ -46,11 +45,14 @@
     "zod": "^4.0.10"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.11",
     "@types/node": "^24.1.0",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@typescript-eslint/eslint-plugin": "^8.38.0",
     "@typescript-eslint/parser": "^8.38.0",
+    "autoprefixer": "^10.4.21",
+    "canvas": "^3.1.2",
     "dotenv": "^17.2.1",
     "eslint-config-next": "^15.4.4",
     "eslint-config-prettier": "^10.1.8",

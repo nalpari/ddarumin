@@ -35,7 +35,7 @@ export function validateFile(file: File): { valid: boolean; error?: string } {
   }
 
   // Check file type
-  if (!STORAGE_CONFIG.ALLOWED_FILE_TYPES.includes(file.type as any)) {
+  if (!STORAGE_CONFIG.ALLOWED_FILE_TYPES.includes(file.type)) {
     return {
       valid: false,
       error: '허용되지 않은 파일 형식입니다. JPG, PNG, WebP 파일만 업로드 가능합니다.'
@@ -44,7 +44,7 @@ export function validateFile(file: File): { valid: boolean; error?: string } {
 
   // Check file extension
   const extension = `.${file.name.split('.').pop()?.toLowerCase()}`
-  if (!STORAGE_CONFIG.ALLOWED_EXTENSIONS.includes(extension as any)) {
+  if (!STORAGE_CONFIG.ALLOWED_EXTENSIONS.includes(extension)) {
     return {
       valid: false,
       error: '허용되지 않은 파일 확장자입니다.'

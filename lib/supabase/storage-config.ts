@@ -8,9 +8,9 @@ export type StorageBucket = typeof STORAGE_BUCKETS[keyof typeof STORAGE_BUCKETS]
 
 export const STORAGE_CONFIG = {
   MAX_FILE_SIZE: 5 * 1024 * 1024, // 5MB
-  ALLOWED_FILE_TYPES: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'] as const,
-  ALLOWED_EXTENSIONS: ['.jpg', '.jpeg', '.png', '.webp'] as const,
-} as const
+  ALLOWED_FILE_TYPES: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'] as string[],
+  ALLOWED_EXTENSIONS: ['.jpg', '.jpeg', '.png', '.webp'] as string[],
+}
 
 export const BUCKET_POLICIES = {
   [STORAGE_BUCKETS.MENUS]: {

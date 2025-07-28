@@ -28,7 +28,11 @@ export interface ToastProps
   title?: string
   description?: string
   onClose?: () => void
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
 }
+
+export type ToastActionElement = React.ReactElement
 
 export function Toast({
   className,

@@ -7,6 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 A modern coffee franchise website built with Next.js 15, Supabase, Prisma, Shadcn UI, and Tailwind CSS v4. This project serves both public customers and franchise administrators.
 
 - 모든 텍스트는 한글로 작성해야 합니다.
+- 태스크를 진행하고 항상 마지막에는 lint와 타입체크를 진행해야 합니다.
 
 ## Development Commands
 
