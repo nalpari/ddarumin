@@ -399,7 +399,7 @@
         "dependencies": [
           6
         ],
-        "status": "in-progress",
+        "status": "done",
         "subtasks": [
           {
             "id": 1,
@@ -407,7 +407,7 @@
             "description": "홈페이지의 첫인상을 결정하는 히어로 섹션과 전체 사이트 네비게이션을 구현합니다.",
             "dependencies": [],
             "details": "1. app/page.tsx에 히어로 섹션 구현 (배경 이미지, 메인 카피, CTA 버튼)\n2. components/layout/Header.tsx 생성 (로고, 메뉴 네비게이션, 가맹문의 버튼)\n3. components/layout/Footer.tsx 생성 (회사 정보, 빠른 링크, SNS 링크)\n4. 반응형 모바일 메뉴 구현 (햄버거 메뉴, 슬라이드 네비게이션)\n5. next/image를 사용한 이미지 최적화\n6. Tailwind CSS v4로 애니메이션 효과 추가",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "반응형 디자인 테스트 (375px, 768px, 1024px, 1440px), 네비게이션 링크 작동 확인, 이미지 로딩 속도 측정"
           },
           {
@@ -416,7 +416,7 @@
             "description": "카테고리별 메뉴 표시와 HOT/COLD 필터링 기능을 갖춘 메뉴 소개 페이지를 개발합니다.",
             "dependencies": [],
             "details": "1. app/menu/page.tsx 생성 (메뉴 리스트 페이지)\n2. components/menu/MenuCard.tsx 구현 (메뉴 아이템 카드 컴포넌트)\n3. components/menu/CategoryFilter.tsx 구현 (카테고리 필터 버튼)\n4. components/menu/TemperatureFilter.tsx 구현 (HOT/COLD 토글)\n5. Prisma를 통한 메뉴 데이터 조회 API 생성 (app/api/menu/route.ts)\n6. 메뉴 이미지 lazy loading 및 placeholder 구현\n7. 신메뉴 배지 표시 기능",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "필터 기능 작동 테스트, 메뉴 데이터 로딩 성능 측정, 이미지 lazy loading 확인"
           },
           {
@@ -425,7 +425,7 @@
             "description": "가맹 문의와 창업설명회 신청을 위한 폼 페이지와 데이터 처리 로직을 구현합니다.",
             "dependencies": [],
             "details": "1. app/franchise/page.tsx 생성 (가맹 문의 폼)\n2. app/startup-session/page.tsx 생성 (창업설명회 신청)\n3. components/forms/FranchiseForm.tsx 구현 (React Hook Form 사용)\n4. components/forms/SessionForm.tsx 구현 (날짜 선택, 참가 인원 입력)\n5. app/api/franchise/route.ts 생성 (가맹 문의 저장 API)\n6. app/api/startup-session/route.ts 생성 (설명회 신청 API)\n7. 폼 유효성 검증 및 에러 메시지 처리\n8. 제출 성공 시 확인 모달 표시",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "폼 유효성 검증 테스트, API 엔드포인트 테스트, 데이터베이스 저장 확인"
           },
           {
@@ -434,7 +434,7 @@
             "description": "자주 묻는 질문을 카테고리별로 정리하고 검색 가능한 FAQ 페이지를 개발합니다.",
             "dependencies": [],
             "details": "1. app/faq/page.tsx 생성 (FAQ 메인 페이지)\n2. components/faq/FAQItem.tsx 구현 (아코디언 형태의 Q&A 컴포넌트)\n3. components/faq/FAQSearch.tsx 구현 (실시간 검색 기능)\n4. components/faq/CategoryTabs.tsx 구현 (카테고리별 탭 네비게이션)\n5. app/api/faq/route.ts 생성 (FAQ 데이터 조회 API)\n6. 검색어 하이라이팅 기능 구현\n7. 질문 클릭 시 부드러운 확장 애니메이션",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "검색 기능 정확도 테스트, 아코디언 UI 작동 확인, 카테고리 필터링 테스트"
           },
           {
@@ -443,7 +443,7 @@
             "description": "모든 페이지에 대한 SEO 최적화와 소셜 미디어 공유를 위한 메타데이터를 설정합니다.",
             "dependencies": [],
             "details": "1. app/layout.tsx에 기본 메타데이터 설정\n2. 각 페이지별 동적 메타데이터 생성 (generateMetadata 함수)\n3. Open Graph 태그 설정 (og:title, og:description, og:image)\n4. Twitter Card 메타 태그 추가\n5. 구조화된 데이터 마크업 추가 (JSON-LD)\n6. sitemap.ts 생성 (동적 사이트맵 생성)\n7. robots.txt 설정\n8. 페이지별 canonical URL 설정",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "메타 태그 검증 도구 사용, 소셜 미디어 미리보기 테스트, 구글 검색 콘솔 확인"
           }
         ]
@@ -544,7 +544,7 @@
     ],
     "metadata": {
       "created": "2025-07-28T05:06:22.784Z",
-      "updated": "2025-07-28T08:13:46.646Z",
+      "updated": "2025-07-28T08:44:29.334Z",
       "description": "Tasks for master context"
     }
   }
