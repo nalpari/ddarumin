@@ -6,6 +6,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 A modern coffee franchise website built with Next.js 15, Supabase, Prisma, Shadcn UI, and Tailwind CSS v4. This project serves both public customers and franchise administrators.
 
+- 모든 텍스트는 한글로 작성해야 합니다.
+
 ## Development Commands
 
 ```bash
@@ -31,6 +33,7 @@ npx tsx scripts/create-admin.ts   # Requires SUPABASE_SERVICE_ROLE_KEY in .env.l
 ## High-Level Architecture
 
 ### Tech Stack
+
 - **Frontend**: Next.js 15 (App Router), React 19, TypeScript
 - **Styling**: Tailwind CSS v4 (using @import syntax), Shadcn UI components
 - **Database**: Supabase PostgreSQL with Prisma ORM
@@ -38,6 +41,7 @@ npx tsx scripts/create-admin.ts   # Requires SUPABASE_SERVICE_ROLE_KEY in .env.l
 - **File Storage**: Supabase Storage for images
 
 ### Project Structure
+
 ```
 /app                    # Next.js App Router
   /admin               # Admin panel (protected routes)
@@ -63,17 +67,20 @@ npx tsx scripts/create-admin.ts   # Requires SUPABASE_SERVICE_ROLE_KEY in .env.l
 
 ### Key Architectural Decisions
 
-1. **Authentication Flow**: 
+1. **Authentication Flow**:
+
    - Supabase Auth handles user authentication
    - Middleware checks admin status in database
    - Protected routes redirect to login when unauthorized
 
 2. **Database Design**:
+
    - All models defined in `/prisma/schema.prisma`
    - Uses enums for status fields and predefined options
    - Junction table (EventStore) for many-to-many relationships
 
 3. **State Management**:
+
    - Server components fetch data directly
    - Client components use hooks for auth state
    - No global state management needed (Supabase handles auth state)
@@ -86,6 +93,7 @@ npx tsx scripts/create-admin.ts   # Requires SUPABASE_SERVICE_ROLE_KEY in .env.l
 ## Environment Variables
 
 Required in `.env.local`:
+
 ```
 NEXT_PUBLIC_SUPABASE_URL=your-supabase-url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
@@ -103,11 +111,13 @@ SUPABASE_SERVICE_ROLE_KEY=...            # For admin operations (optional)
 ## Current Project Status
 
 ### Completed Tasks
+
 - ✅ Task 1: Project initialization and infrastructure setup
 - ✅ Task 2: Database schema design and migration (all models created)
 - ✅ Task 3: Supabase Auth integration and admin authentication system
 
 ### Authentication System Details
+
 - Admin login at `/admin/login`
 - Protected routes under `/admin/*`
 - Middleware handles auth checks in `/lib/supabase/middleware.ts`
@@ -134,6 +144,7 @@ task-master set-status --id=<id> --status=done    # Mark task complete
 ```
 
 ### Task Master Files
+
 - `.taskmaster/tasks/tasks.json` - Main task database
 - `.taskmaster/docs/prd.txt` - Product Requirements Document
 - `.mcp.json` - MCP server configuration for Task Master integration
