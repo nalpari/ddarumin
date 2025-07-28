@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { Search, ChevronDown, ChevronUp } from 'lucide-react'
 import { Input } from '@/components/ui/input'
-import { FAQ, FAQCategory } from '@prisma/client'
+import { FAQCategory } from '@prisma/client'
 
 type FAQItem = {
   id: string

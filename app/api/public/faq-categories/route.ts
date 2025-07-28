@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
 
 export async function GET() {
   try {
@@ -12,8 +11,8 @@ export async function GET() {
     ]
 
     return NextResponse.json(categories)
-  } catch (error) {
-    console.error('Failed to fetch FAQ categories:', error)
+  } catch {
+    console.error('Failed to fetch FAQ categories')
     return NextResponse.json(
       { error: 'Failed to fetch FAQ categories' },
       { status: 500 }
