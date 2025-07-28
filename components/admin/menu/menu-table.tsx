@@ -11,7 +11,7 @@ import { MenuFormDialog } from './menu-form-dialog'
 import { DeleteDialog } from '@/components/admin/DeleteDialog'
 import { deleteMenu, updateMenu } from '@/lib/actions/menu-actions'
 import { useToast } from '@/components/ui/toast'
-import { format, formatPrice } from '@/lib/utils'
+import { formatPrice } from '@/lib/utils'
 import Image from 'next/image'
 
 interface MenuWithCategory {
@@ -32,9 +32,15 @@ interface MenuWithCategory {
   }
 }
 
+interface Category {
+  id: string
+  name: string
+  status: ContentStatus
+}
+
 interface MenuTableProps {
   menus: MenuWithCategory[]
-  categories: any[]
+  categories: Category[]
 }
 
 const TAG_LABELS = {

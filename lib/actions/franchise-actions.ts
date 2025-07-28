@@ -4,7 +4,7 @@ import { prisma } from '@/lib/prisma'
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
 import { createSafeAction, ActionState } from './base-actions'
-import { FranchiseInquiry, InquiryStatus, StoreOwnership } from '@prisma/client'
+import { FranchiseInquiry, InquiryStatus } from '@prisma/client'
 import { requireAdminAuth } from '@/lib/supabase/admin'
 
 const updateInquirySchema = z.object({
@@ -55,7 +55,7 @@ export const updateFranchiseInquiry = createSafeAction(
         success: true,
         data: inquiry,
       }
-    } catch (error) {
+    } catch {
       return {
         success: false,
         error: '가맹문의 상태 업데이트에 실패했습니다',
@@ -75,7 +75,7 @@ export const deleteFranchiseInquiry = async (id: string): Promise<ActionState<vo
     revalidatePath('/admin/franchise')
     
     return { success: true }
-  } catch (error) {
+  } catch {
     return {
       success: false,
       error: '가맹문의 삭제에 실패했습니다',

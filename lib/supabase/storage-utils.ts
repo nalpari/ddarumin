@@ -1,4 +1,4 @@
-import { STORAGE_BUCKETS, type StorageBucket } from './storage-config'
+import { type StorageBucket } from './storage-config'
 
 export interface ImageTransformOptions {
   width?: number

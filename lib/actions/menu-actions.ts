@@ -94,7 +94,7 @@ export const createMenu = createSafeAction(
         success: true,
         data: menu,
       }
-    } catch (error) {
+    } catch {
       return {
         success: false,
         error: '메뉴 생성에 실패했습니다',
@@ -126,7 +126,7 @@ export const updateMenu = createSafeAction(
         success: true,
         data: menu,
       }
-    } catch (error) {
+    } catch {
       return {
         success: false,
         error: '메뉴 수정에 실패했습니다',
@@ -146,7 +146,7 @@ export const deleteMenu = async (id: string): Promise<ActionState<void>> => {
     revalidatePath('/admin/menus/items')
     
     return { success: true }
-  } catch (error) {
+  } catch {
     return {
       success: false,
       error: '메뉴 삭제에 실패했습니다',

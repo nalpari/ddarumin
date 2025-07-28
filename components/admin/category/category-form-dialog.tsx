@@ -107,7 +107,7 @@ export function CategoryFormDialog({ category, open, onOpenChange }: CategoryFor
           })
         }
       }
-    } catch (error) {
+    } catch {
       showToast({
         title: '오류 발생',
         description: '작업 중 오류가 발생했습니다',

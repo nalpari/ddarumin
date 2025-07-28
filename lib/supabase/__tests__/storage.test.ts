@@ -1,4 +1,4 @@
-import { uploadFile, deleteFile, getPublicUrl, validateFile } from '../storage'
+import { getPublicUrl, validateFile } from '../storage'
 import { STORAGE_BUCKETS } from '../storage-config'
 
 // Mock file for testing

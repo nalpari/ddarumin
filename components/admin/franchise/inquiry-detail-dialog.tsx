@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { FranchiseInquiry, InquiryStatus } from '@prisma/client'
+import { FranchiseInquiry } from '@prisma/client'
 import {
   Dialog,
   DialogContent,
@@ -49,7 +49,7 @@ export function InquiryDetailDialog({ inquiry, open, onOpenChange }: InquiryDeta
           variant: 'destructive',
         })
       }
-    } catch (error) {
+    } catch {
       showToast({
         title: '오류 발생',
         description: '답변 저장 중 오류가 발생했습니다',

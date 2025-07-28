@@ -87,7 +87,6 @@ export function StoreForm({ defaultValues, onSubmit, isLoading }: StoreFormProps
     isUploading,
     addImage,
     removeImage,
-    setImages,
   } = useImageList({
     bucket: STORAGE_BUCKETS.STORES,
     path: `stores/${new Date().getFullYear()}`,

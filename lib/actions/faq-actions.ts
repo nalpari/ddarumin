@@ -61,7 +61,7 @@ export const createFAQ = createSafeAction(
         success: true,
         data: faq,
       }
-    } catch (error) {
+    } catch {
       return {
         success: false,
         error: 'FAQ 생성에 실패했습니다',
@@ -89,7 +89,7 @@ export const updateFAQ = createSafeAction(
         success: true,
         data: faq,
       }
-    } catch (error) {
+    } catch {
       return {
         success: false,
         error: 'FAQ 수정에 실패했습니다',
@@ -109,7 +109,7 @@ export const deleteFAQ = async (id: string): Promise<ActionState<void>> => {
     revalidatePath('/admin/posts/faqs')
     
     return { success: true }
-  } catch (error) {
+  } catch {
     return {
       success: false,
       error: 'FAQ 삭제에 실패했습니다',

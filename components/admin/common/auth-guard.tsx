@@ -13,7 +13,7 @@ interface AuthGuardProps {
 
 export function AuthGuard({ 
   children, 
-  requiredRole, 
+  requiredRole: _requiredRole, 
   fallbackUrl = '/admin/login' 
 }: AuthGuardProps) {
   const { user, loading } = useAuth()

@@ -58,7 +58,7 @@ export default function PasswordChangePage() {
       setTimeout(() => {
         router.push('/admin')
       }, 2000)
-    } catch (err) {
+    } catch {
       setError('비밀번호 변경 중 오류가 발생했습니다.')
     } finally {
       setLoading(false)

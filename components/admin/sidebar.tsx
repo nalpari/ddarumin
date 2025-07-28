@@ -6,10 +6,7 @@ import { cn } from '@/lib/utils'
 import {
   LayoutDashboard,
   MessageSquare,
-  Calendar,
-  HelpCircle,
   Coffee,
-  ShoppingBag,
   Store,
   PartyPopper,
   Users,

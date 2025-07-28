@@ -106,7 +106,7 @@ export const createNewMenu = createSafeAction(
         success: true,
         data: newMenu,
       }
-    } catch (error) {
+    } catch {
       return {
         success: false,
         error: '신메뉴 포스터 생성에 실패했습니다',
@@ -123,7 +123,7 @@ export const updateNewMenu = createSafeAction(
     const { id, ...updateData } = data
     
     try {
-      const processedData: any = { ...updateData }
+      const processedData: Partial<NewMenu> = { ...updateData }
       
       if (updateData.startDate) processedData.startDate = new Date(updateData.startDate)
       if (updateData.endDate) processedData.endDate = new Date(updateData.endDate)
@@ -157,7 +157,7 @@ export const updateNewMenu = createSafeAction(
         success: true,
         data: newMenu,
       }
-    } catch (error) {
+    } catch {
       return {
         success: false,
         error: '신메뉴 포스터 수정에 실패했습니다',
@@ -177,7 +177,7 @@ export const deleteNewMenu = async (id: string): Promise<ActionState<void>> => {
     revalidatePath('/admin/menus/new-menus')
     
     return { success: true }
-  } catch (error) {
+  } catch {
     return {
       success: false,
       error: '신메뉴 포스터 삭제에 실패했습니다',

@@ -28,7 +28,13 @@ const updateSessionSchema = z.object({
   status: z.nativeEnum(SessionStatus).optional(),
 })
 
-export const getStartupSessions = async (): Promise<StartupSession[]> => {
+interface SessionWithCount extends StartupSession {
+  _count: {
+    applicants: number
+  }
+}
+
+export const getStartupSessions = async (): Promise<SessionWithCount[]> => {
   await requireAdminAuth()
   
   const sessions = await prisma.startupSession.findMany({
@@ -42,7 +48,7 @@ export const getStartupSessions = async (): Promise<StartupSession[]> => {
     },
   })
   
-  return sessions as any
+  return sessions
 }
 
 export const getStartupSession = async (id: string) => {
@@ -97,7 +103,7 @@ export const createStartupSession = createSafeAction(
         success: true,
         data: session,
       }
-    } catch (error) {
+    } catch {
       return {
         success: false,
         error: '창업설명회 생성에 실패했습니다',
@@ -112,7 +118,7 @@ export const updateStartupSession = createSafeAction(
     await requireAdminAuth()
     
     try {
-      const updateData: any = {}
+      const updateData: Partial<StartupSession> = {}
       
       if (data.sessionDate) updateData.sessionDate = new Date(data.sessionDate)
       if (data.sessionTime) updateData.sessionTime = data.sessionTime
@@ -133,7 +139,7 @@ export const updateStartupSession = createSafeAction(
         success: true,
         data: session,
       }
-    } catch (error) {
+    } catch {
       return {
         success: false,
         error: '창업설명회 수정에 실패했습니다',
@@ -153,7 +159,7 @@ export const deleteStartupSession = async (id: string): Promise<ActionState<void
     revalidatePath('/admin/sessions')
     
     return { success: true }
-  } catch (error) {
+  } catch {
     return {
       success: false,
       error: '창업설명회 삭제에 실패했습니다',
@@ -185,7 +191,7 @@ export const deleteSessionApplicant = async (id: string): Promise<ActionState<vo
     revalidatePath('/admin/sessions')
     
     return { success: true }
-  } catch (error) {
+  } catch {
     return {
       success: false,
       error: '신청자 삭제에 실패했습니다',

@@ -11,10 +11,10 @@ export type ActionState<T = unknown> = {
   errors?: Record<string, string[]>
 }
 
-export async function createSafeAction<Input, Output>(
+export function createSafeAction<Input, Output>(
   schema: z.ZodSchema<Input>,
   handler: (validatedData: Input) => Promise<ActionState<Output>>
-): Promise<(data: Input) => Promise<ActionState<Output>>> {
+) {
   return async (data: Input): Promise<ActionState<Output>> => {
     const validationResult = schema.safeParse(data)
 
@@ -58,7 +58,7 @@ export function createCRUDActions<T extends { id: string }>(
           success: true,
           data: { ...data, id: 'generated-id' } as T,
         }
-      } catch (error) {
+      } catch {
         return {
           success: false,
           error: `${modelName} 생성에 실패했습니다`,
@@ -73,7 +73,7 @@ export function createCRUDActions<T extends { id: string }>(
           success: true,
           data: { ...data, id } as T,
         }
-      } catch (error) {
+      } catch {
         return {
           success: false,
           error: `${modelName} 수정에 실패했습니다`,
@@ -81,12 +81,12 @@ export function createCRUDActions<T extends { id: string }>(
       }
     },
 
-    async delete(id: string): Promise<ActionState<void>> {
+    async delete(_id: string): Promise<ActionState<void>> {
       try {
         // Implementation will be added based on specific model requirements
         revalidatePath(basePath)
         return { success: true }
-      } catch (error) {
+      } catch {
         return {
           success: false,
           error: `${modelName} 삭제에 실패했습니다`,
@@ -101,7 +101,7 @@ export function createCRUDActions<T extends { id: string }>(
           success: true,
           data: [],
         }
-      } catch (error) {
+      } catch {
         return {
           success: false,
           error: `${modelName} 목록을 불러오는데 실패했습니다`,
@@ -116,7 +116,7 @@ export function createCRUDActions<T extends { id: string }>(
           success: true,
           data: { id } as T,
         }
-      } catch (error) {
+      } catch {
         return {
           success: false,
           error: `${modelName}을(를) 찾을 수 없습니다`,

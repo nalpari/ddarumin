@@ -25,7 +25,7 @@ export default function AdminLoginPage() {
       const supabase = createClient()
       
       // Sign in with Supabase Auth
-      const { data, error: authError } = await supabase.auth.signInWithPassword({
+      const { error: authError } = await supabase.auth.signInWithPassword({
         email,
         password,
       })
@@ -51,7 +51,7 @@ export default function AdminLoginPage() {
 
       router.push('/admin')
       router.refresh()
-    } catch (err) {
+    } catch {
       setError('로그인 중 오류가 발생했습니다.')
     } finally {
       setLoading(false)

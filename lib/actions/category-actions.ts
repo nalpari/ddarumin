@@ -18,7 +18,13 @@ const updateCategorySchema = z.object({
   status: z.nativeEnum(ContentStatus).optional(),
 })
 
-export const getCategories = async (): Promise<Category[]> => {
+interface CategoryWithCount extends Category {
+  _count: {
+    menus: number
+  }
+}
+
+export const getCategories = async (): Promise<CategoryWithCount[]> => {
   await requireAdminAuth()
   
   const categories = await prisma.category.findMany({
@@ -32,7 +38,7 @@ export const getCategories = async (): Promise<Category[]> => {
     },
   })
   
-  return categories as any
+  return categories
 }
 
 export const getCategory = async (id: string) => {
@@ -76,7 +82,7 @@ export const createCategory = createSafeAction(
         success: true,
         data: category,
       }
-    } catch (error) {
+    } catch {
       return {
         success: false,
         error: '카테고리 생성에 실패했습니다',
@@ -121,7 +127,7 @@ export const updateCategory = createSafeAction(
         success: true,
         data: category,
       }
-    } catch (error) {
+    } catch {
       return {
         success: false,
         error: '카테고리 수정에 실패했습니다',
@@ -144,7 +150,7 @@ export const deleteCategory = async (id: string): Promise<ActionState<void>> => 
       },
     })
     
-    if (category && (category as any)._count.menus > 0) {
+    if (category && category._count.menus > 0) {
       return {
         success: false,
         error: '메뉴가 등록된 카테고리는 삭제할 수 없습니다',
@@ -158,7 +164,7 @@ export const deleteCategory = async (id: string): Promise<ActionState<void>> => 
     revalidatePath('/admin/menus/categories')
     
     return { success: true }
-  } catch (error) {
+  } catch {
     return {
       success: false,
       error: '카테고리 삭제에 실패했습니다',

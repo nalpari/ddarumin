@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 import { useDropzone } from 'react-dropzone'
-import { Upload, X, FileImage, Loader2 } from 'lucide-react'
+import { Upload, X, Loader2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { STORAGE_CONFIG } from '@/lib/supabase/storage-config'
