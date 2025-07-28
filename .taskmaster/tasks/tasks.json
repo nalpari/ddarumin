@@ -9,7 +9,7 @@
         "testStrategy": "프로젝트 빌드 성공 여부 확인, 환경변수 로드 테스트, Supabase 연결 테스트",
         "priority": "high",
         "dependencies": [],
-        "status": "in-progress",
+        "status": "done",
         "subtasks": [
           {
             "id": 1,
@@ -28,7 +28,7 @@
               1
             ],
             "details": "npm install -D tailwindcss@next postcss autoprefixer로 Tailwind CSS v4 설치. tailwind.config.ts에서 브랜드 컬러 #87CEEB를 primary로 설정. npx shadcn-ui@latest init 실행하여 Shadcn UI 초기화. globals.css에 Tailwind 디렉티브 추가. components.json에서 컴포넌트 경로 설정",
-            "status": "in-progress",
+            "status": "done",
             "testStrategy": "Tailwind 클래스가 적용되는지 확인, Shadcn UI Button 컴포넌트 설치 후 렌더링 테스트"
           },
           {
@@ -39,7 +39,7 @@
               1
             ],
             "details": "Supabase 대시보드에서 새 프로젝트 생성. .env.local 파일 생성하여 NEXT_PUBLIC_SUPABASE_URL, SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY 환경변수 추가. @supabase/supabase-js 패키지 설치. /lib/supabase 폴더에 client.ts와 server.ts 파일 생성하여 클라이언트 초기화 코드 작성",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Supabase 클라이언트 연결 테스트, 환경변수 로드 확인, API 호출 테스트"
           },
           {
@@ -50,7 +50,7 @@
               3
             ],
             "details": "npm install prisma @prisma/client로 Prisma 설치. npx prisma init 실행하여 prisma 폴더와 schema.prisma 생성. .env에 DATABASE_URL 추가 (Supabase 프로젝트의 PostgreSQL 연결 문자열 사용). schema.prisma에 provider를 postgresql로, previewFeatures 설정 추가. /lib/prisma.ts 파일 생성하여 PrismaClient 싱글톤 패턴 구현",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "npx prisma db pull로 연결 테스트, PrismaClient 인스턴스 생성 확인"
           },
           {
@@ -64,7 +64,7 @@
               4
             ],
             "details": "/app 하위에 admin, (public) 라우트 그룹 생성. /components에 ui, shared, admin 폴더 구분. /lib에 utils.ts, prisma.ts, supabase 폴더 배치. /hooks 폴더에 useAuth.ts 등 커스텀 훅 파일 준비. /types 폴더 생성하여 TypeScript 타입 정의 파일 관리. 각 폴더에 index.ts 또는 README.md 파일 추가하여 구조 명확화",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "폴더 구조 검증 스크립트 작성, 각 경로의 import/export 정상 작동 확인"
           }
         ]
@@ -79,7 +79,7 @@
         "dependencies": [
           1
         ],
-        "status": "pending",
+        "status": "done",
         "subtasks": [
           {
             "id": 1,
@@ -87,7 +87,7 @@
             "description": "관리자 인증과 권한 관리를 위한 기본 모델들을 Prisma 스키마에 정의",
             "dependencies": [],
             "details": "prisma/schema.prisma 파일에 다음 모델들을 정의:\n- Admin 모델: id, email, password (해시), name, role (enum: SUPER_ADMIN, ADMIN), createdAt, updatedAt\n- AdminSession 모델: 관리자 세션 추적용 (id, adminId, token, expiresAt, createdAt)\n- AdminLog 모델: 관리자 활동 로그 (id, adminId, action, ipAddress, userAgent, createdAt)\n- 필요한 인덱스 추가: email(unique), token(unique)",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "npx prisma validate로 스키마 유효성 검증, npx prisma studio로 생성된 테이블 구조 확인"
           },
           {
@@ -96,7 +96,7 @@
             "description": "가맹점 문의, 창업설명회, FAQ 등 핵심 비즈니스 로직을 위한 모델 정의",
             "dependencies": [],
             "details": "다음 모델들을 정의:\n- FranchiseInquiry: id, name, phone, email, area, budget, message, status(enum: PENDING, CONTACTED, COMPLETED), createdAt, updatedAt\n- StartupSession: id, title, date, time, location, maxApplicants, currentApplicants, status(enum: SCHEDULED, COMPLETED, CANCELLED), createdAt\n- SessionApplicant: id, sessionId(FK), name, phone, email, attendanceStatus, createdAt\n- FAQ: id, category, question, answer, order, isActive, createdAt, updatedAt\n- 관계 설정: StartupSession 1:N SessionApplicant",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "관계 설정 검증을 위한 쿼리 테스트, CASCADE 옵션 동작 확인"
           },
           {
@@ -105,7 +105,7 @@
             "description": "메뉴 시스템을 위한 카테고리, 메뉴 아이템, 신메뉴 관련 모델 정의",
             "dependencies": [],
             "details": "다음 모델들을 정의:\n- Category: id, name, slug, order, isActive, createdAt, updatedAt\n- Menu: id, categoryId(FK), name, description, price, imageUrl, isPopular, isNew, allergyInfo, nutritionInfo(JSON), order, isActive, createdAt, updatedAt\n- NewMenu: id, name, description, imageUrl, launchDate, endDate, isActive, createdAt\n- 관계 설정: Category 1:N Menu\n- 인덱스: categoryId, slug(unique), isActive",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "카테고리별 메뉴 조회 성능 테스트, JSON 필드 저장/조회 검증"
           },
           {
@@ -114,7 +114,7 @@
             "description": "매장 정보와 이벤트 관리를 위한 모델 정의 및 위치 기반 검색 지원",
             "dependencies": [],
             "details": "다음 모델들을 정의:\n- Store: id, name, address, phone, businessHours(JSON), latitude(Float), longitude(Float), region, imageUrl, isOpen, createdAt, updatedAt\n- Event: id, title, description, imageUrl, startDate, endDate, eventType(enum: PROMOTION, NEW_MENU, NOTICE), targetStores(JSON array), isActive, viewCount(default: 0), createdAt, updatedAt\n- 인덱스: region, isOpen, 위치 기반 검색을 위한 복합 인덱스(latitude, longitude)\n- 전체 텍스트 검색을 위한 인덱스 추가",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "위치 기반 매장 검색 쿼리 성능 테스트, 이벤트 날짜 필터링 검증"
           },
           {
@@ -123,7 +123,7 @@
             "description": "정의된 모든 스키마를 Supabase 데이터베이스에 마이그레이션하고 최종 검증 수행",
             "dependencies": [],
             "details": "1. npx prisma migrate dev --name initial_schema 실행하여 마이그레이션 생성\n2. Supabase 대시보드에서 생성된 테이블 구조 확인\n3. 추가 인덱스 생성 SQL 실행 (위치 기반 검색, 전체 텍스트 검색)\n4. RLS(Row Level Security) 정책 설정 검토\n5. npx prisma generate로 Prisma Client 생성\n6. 시드 데이터 스크립트 작성 (prisma/seed.ts)\n7. npx prisma db seed로 초기 데이터 투입",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "모든 테이블 CRUD 작업 통합 테스트, 관계 무결성 검증, 인덱스 성능 측정"
           }
         ]
@@ -138,7 +138,7 @@
         "dependencies": [
           2
         ],
-        "status": "pending",
+        "status": "done",
         "subtasks": [
           {
             "id": 1,
@@ -146,7 +146,7 @@
             "description": "브라우저와 서버 환경에서 사용할 Supabase Auth 클라이언트 초기화 및 설정",
             "dependencies": [],
             "details": "1. /lib/supabase/client.ts 파일 생성하여 createBrowserClient 함수로 브라우저용 클라이언트 설정\n2. /lib/supabase/server.ts 파일 생성하여 createServerClient 함수로 서버 컴포넌트용 클라이언트 설정\n3. 쿠키 기반 세션 관리를 위한 설정 추가\n4. 환경변수(NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY) 활용\n5. 타입 안전성을 위한 Database 타입 정의 및 적용",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "클라이언트 인스턴스 생성 테스트, 환경변수 로드 확인, 타입 체크 검증"
           },
           {
@@ -155,7 +155,7 @@
             "description": "Next.js 미들웨어를 사용하여 관리자 인증이 필요한 라우트 보호",
             "dependencies": [],
             "details": "1. middleware.ts 파일 생성하여 /admin/* 경로 보호\n2. Supabase 세션 확인 로직 구현\n3. 인증되지 않은 사용자를 /admin/login으로 리다이렉트\n4. 세션 리프레시 토큰 자동 갱신 처리\n5. matcher 설정으로 공개 라우트와 보호된 라우트 구분\n6. CORS 및 보안 헤더 설정 추가",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "인증된/인증되지 않은 사용자의 라우트 접근 테스트, 세션 만료 시나리오 테스트"
           },
           {
@@ -164,7 +164,7 @@
             "description": "클라이언트 컴포넌트에서 인증 상태를 관리할 수 있는 React Context와 훅 개발",
             "dependencies": [],
             "details": "1. /contexts/AuthContext.tsx 파일 생성하여 AuthProvider 구현\n2. /hooks/useAuth.ts 파일에 useAuth 훅 구현\n3. 로그인, 로그아웃, 세션 확인 함수 제공\n4. 실시간 세션 상태 변경 감지 (onAuthStateChange)\n5. 로딩 상태 및 에러 처리 포함\n6. TypeScript로 User 타입 정의 및 적용",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "훅 렌더링 테스트, 상태 변경 시나리오 테스트, 에러 처리 검증"
           },
           {
@@ -173,7 +173,7 @@
             "description": "Shadcn UI를 활용한 관리자 로그인 폼 및 페이지 구현",
             "dependencies": [],
             "details": "1. /app/admin/login/page.tsx 파일 생성\n2. react-hook-form과 zod를 사용한 폼 검증\n3. 이메일/비밀번호 입력 필드 및 에러 메시지 표시\n4. 로그인 버튼 및 로딩 상태 처리\n5. 브랜드 컬러(#87CEEB) 적용한 디자인\n6. 로그인 성공 시 /admin/dashboard로 리다이렉트\n7. 에러 토스트 메시지 표시 기능",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "폼 유효성 검증 테스트, 로그인 성공/실패 시나리오 테스트, UI 반응형 테스트"
           },
           {
@@ -182,7 +182,7 @@
             "description": "관리자 로그아웃 기능과 비밀번호 변경 기능 개발",
             "dependencies": [],
             "details": "1. 관리자 레이아웃에 로그아웃 버튼 추가\n2. useAuth 훅의 signOut 함수 활용\n3. /app/admin/profile/page.tsx에 비밀번호 변경 폼 구현\n4. updatePassword API 호출 및 에러 처리\n5. 비밀번호 강도 검증 로직 추가\n6. 세션 쿠키 클리어 및 로컬 스토리지 정리\n7. 로그아웃 후 로그인 페이지로 리다이렉트",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "로그아웃 플로우 테스트, 비밀번호 변경 성공/실패 테스트, 세션 정리 확인"
           }
         ]
@@ -437,7 +437,7 @@
     ],
     "metadata": {
       "created": "2025-07-28T05:06:22.784Z",
-      "updated": "2025-07-28T06:28:59.226Z",
+      "updated": "2025-07-28T06:48:17.472Z",
       "description": "Tasks for master context"
     }
   }

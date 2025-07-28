@@ -33,5 +33,39 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
+  // Protected admin routes
+  if (request.nextUrl.pathname.startsWith('/admin') && 
+      !request.nextUrl.pathname.startsWith('/admin/login')) {
+    
+    if (!user) {
+      return NextResponse.redirect(new URL('/admin/login', request.url))
+    }
+
+    // Verify admin status
+    const { data: admin } = await supabase
+      .from('admins')
+      .select('status')
+      .eq('username', user.email)
+      .single()
+
+    if (!admin || admin.status !== 'ACTIVE') {
+      await supabase.auth.signOut()
+      return NextResponse.redirect(new URL('/admin/login', request.url))
+    }
+  }
+
+  // Redirect to admin dashboard if already logged in
+  if (request.nextUrl.pathname === '/admin/login' && user) {
+    const { data: admin } = await supabase
+      .from('admins')
+      .select('status')
+      .eq('username', user.email)
+      .single()
+
+    if (admin && admin.status === 'ACTIVE') {
+      return NextResponse.redirect(new URL('/admin', request.url))
+    }
+  }
+
   return supabaseResponse
 }

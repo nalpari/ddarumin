@@ -3,47 +3,179 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
 
-// 관리자
 model Admin {
-  id        String   @id @default(cuid())
-  username  String   @unique
+  id        String      @id @default(cuid())
+  username  String      @unique
   password  String
   name      String
   status    AdminStatus @default(ACTIVE)
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  createdAt DateTime    @default(now()) @map("created_at")
+  updatedAt DateTime    @updatedAt @map("updated_at")
 
   @@map("admins")
+}
+
+model FranchiseInquiry {
+  id             String         @id @default(cuid())
+  name           String
+  ageGroup       String         @map("age_group")
+  phone          String
+  email          String?
+  storeOwnership StoreOwnership @map("store_ownership")
+  region         String
+  brandAwareness String[]       @map("brand_awareness")
+  availableTime  String         @map("available_time")
+  content        String
+  status         InquiryStatus  @default(PENDING)
+  response       String?
+  createdAt      DateTime       @default(now()) @map("created_at")
+  updatedAt      DateTime       @updatedAt @map("updated_at")
+
+  @@map("franchise_inquiries")
+}
+
+model StartupSession {
+  id                 String             @id @default(cuid())
+  round              Int                @unique
+  sessionDate        DateTime           @map("session_date")
+  sessionTime        String             @map("session_time")
+  location           SessionLocation
+  additionalLocation String?            @map("additional_location")
+  registrationStart  DateTime           @map("registration_start")
+  registrationEnd    DateTime           @map("registration_end")
+  status             SessionStatus      @default(WAITING)
+  createdAt          DateTime           @default(now()) @map("created_at")
+  updatedAt          DateTime           @updatedAt @map("updated_at")
+  applicants         SessionApplicant[]
+
+  @@map("startup_sessions")
+}
+
+model SessionApplicant {
+  id             String         @id @default(cuid())
+  sessionId      String         @map("session_id")
+  name           String
+  ageGroup       String         @map("age_group")
+  phone          String
+  email          String
+  storeOwnership StoreOwnership @map("store_ownership")
+  attendeeCount  Int            @map("attendee_count")
+  desiredRegion  String         @map("desired_region")
+  availableTime  String         @map("available_time")
+  createdAt      DateTime       @default(now()) @map("created_at")
+  session        StartupSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@map("session_applicants")
+}
+
+model FAQ {
+  id        String        @id @default(cuid())
+  category  FAQCategory
+  title     String
+  content   String
+  status    ContentStatus @default(ACTIVE)
+  createdAt DateTime      @default(now()) @map("created_at")
+  updatedAt DateTime      @updatedAt @map("updated_at")
+
+  @@map("faqs")
+}
+
+model Category {
+  id        String        @id @default(cuid())
+  name      String        @unique
+  status    ContentStatus @default(ACTIVE)
+  createdAt DateTime      @default(now()) @map("created_at")
+  updatedAt DateTime      @updatedAt @map("updated_at")
+  menus     Menu[]
+
+  @@map("categories")
+}
+
+model Menu {
+  id             String         @id @default(cuid())
+  categoryId     String         @map("category_id")
+  name           String
+  price          Int
+  discountPrice  Int?           @map("discount_price")
+  marketingTags  MarketingTag[] @map("marketing_tags")
+  hotColdOptions Temperature[]  @map("hot_cold_options")
+  description    String
+  imageUrl       String?        @map("image_url")
+  status         ContentStatus  @default(ACTIVE)
+  createdAt      DateTime       @default(now()) @map("created_at")
+  updatedAt      DateTime       @updatedAt @map("updated_at")
+  category       Category       @relation(fields: [categoryId], references: [id])
+
+  @@map("menus")
+}
+
+model NewMenu {
+  id        String        @id @default(cuid())
+  title     String
+  startDate DateTime      @map("start_date")
+  endDate   DateTime      @map("end_date")
+  imageUrl  String        @map("image_url")
+  status    NewMenuStatus @default(WAITING)
+  createdAt DateTime      @default(now()) @map("created_at")
+  updatedAt DateTime      @updatedAt @map("updated_at")
+
+  @@map("new_menus")
+}
+
+model Store {
+  id                String          @id @default(cuid())
+  name              String
+  region            StoreRegion
+  address           String
+  additionalAddress String?         @map("additional_address")
+  phone             String
+  operatingStatus   OperatingStatus @map("operating_status")
+  storeType         StoreType       @map("store_type")
+  options           StoreOption[]
+  images            String[]
+  createdAt         DateTime        @default(now()) @map("created_at")
+  updatedAt         DateTime        @updatedAt @map("updated_at")
+  eventStores       EventStore[]
+
+  @@map("stores")
+}
+
+model Event {
+  id              String       @id @default(cuid())
+  title           String
+  startDate       DateTime     @map("start_date")
+  endDate         DateTime     @map("end_date")
+  content         String
+  imageUrl        String       @map("image_url")
+  homepagePreview Boolean      @default(false) @map("homepage_preview")
+  status          EventStatus  @default(WAITING)
+  createdAt       DateTime     @default(now()) @map("created_at")
+  updatedAt       DateTime     @updatedAt @map("updated_at")
+  eventStores     EventStore[]
+
+  @@map("events")
+}
+
+model EventStore {
+  id          String  @id @default(cuid())
+  eventId     String  @map("event_id")
+  storeId     String  @map("store_id")
+  isAllStores Boolean @default(false) @map("is_all_stores")
+  event       Event   @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  store       Store   @relation(fields: [storeId], references: [id], onDelete: Cascade)
+
+  @@unique([eventId, storeId])
+  @@map("event_stores")
 }
 
 enum AdminStatus {
   ACTIVE
   INACTIVE
-}
-
-// 가맹문의
-model FranchiseInquiry {
-  id               String   @id @default(cuid())
-  name             String
-  ageGroup         String   @map("age_group")
-  phone            String
-  email            String?
-  storeOwnership   StoreOwnership @map("store_ownership")
-  region           String
-  brandAwareness   String[] @map("brand_awareness")
-  availableTime    String   @map("available_time")
-  content          String
-  status           InquiryStatus @default(PENDING)
-  response         String?
-  createdAt        DateTime @default(now()) @map("created_at")
-  updatedAt        DateTime @updatedAt @map("updated_at")
-
-  @@map("franchise_inquiries")
 }
 
 enum StoreOwnership {
@@ -54,25 +186,6 @@ enum StoreOwnership {
 enum InquiryStatus {
   PENDING
   COMPLETED
-}
-
-// 창업설명회
-model StartupSession {
-  id                 String   @id @default(cuid())
-  round              Int      @unique
-  sessionDate        DateTime @map("session_date")
-  sessionTime        String   @map("session_time")
-  location           SessionLocation
-  additionalLocation String?  @map("additional_location")
-  registrationStart  DateTime @map("registration_start")
-  registrationEnd    DateTime @map("registration_end")
-  status             SessionStatus @default(WAITING)
-  createdAt          DateTime @default(now()) @map("created_at")
-  updatedAt          DateTime @updatedAt @map("updated_at")
-
-  applicants SessionApplicant[]
-
-  @@map("startup_sessions")
 }
 
 enum SessionLocation {
@@ -88,38 +201,6 @@ enum SessionStatus {
   CLOSED
 }
 
-// 창업설명회 신청자
-model SessionApplicant {
-  id             String   @id @default(cuid())
-  sessionId      String   @map("session_id")
-  name           String
-  ageGroup       String   @map("age_group")
-  phone          String
-  email          String
-  storeOwnership StoreOwnership @map("store_ownership")
-  attendeeCount  Int      @map("attendee_count")
-  desiredRegion  String   @map("desired_region")
-  availableTime  String   @map("available_time")
-  createdAt      DateTime @default(now()) @map("created_at")
-
-  session StartupSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
-
-  @@map("session_applicants")
-}
-
-// FAQ
-model FAQ {
-  id        String     @id @default(cuid())
-  category  FAQCategory
-  title     String
-  content   String
-  status    ContentStatus @default(ACTIVE)
-  createdAt DateTime   @default(now()) @map("created_at")
-  updatedAt DateTime   @updatedAt @map("updated_at")
-
-  @@map("faqs")
-}
-
 enum FAQCategory {
   STORE
   MENU
@@ -130,39 +211,6 @@ enum FAQCategory {
 enum ContentStatus {
   ACTIVE
   INACTIVE
-}
-
-// 카테고리
-model Category {
-  id        String        @id @default(cuid())
-  name      String        @unique
-  status    ContentStatus @default(ACTIVE)
-  createdAt DateTime      @default(now()) @map("created_at")
-  updatedAt DateTime      @updatedAt @map("updated_at")
-
-  menus Menu[]
-
-  @@map("categories")
-}
-
-// 메뉴
-model Menu {
-  id              String        @id @default(cuid())
-  categoryId      String        @map("category_id")
-  name            String
-  price           Int
-  discountPrice   Int?          @map("discount_price")
-  marketingTags   MarketingTag[] @map("marketing_tags")
-  hotColdOptions  Temperature[] @map("hot_cold_options")
-  description     String
-  imageUrl        String?       @map("image_url")
-  status          ContentStatus @default(ACTIVE)
-  createdAt       DateTime      @default(now()) @map("created_at")
-  updatedAt       DateTime      @updatedAt @map("updated_at")
-
-  category Category @relation(fields: [categoryId], references: [id])
-
-  @@map("menus")
 }
 
 enum MarketingTag {
@@ -176,44 +224,10 @@ enum Temperature {
   COLD
 }
 
-// 신메뉴
-model NewMenu {
-  id        String           @id @default(cuid())
-  title     String
-  startDate DateTime         @map("start_date")
-  endDate   DateTime         @map("end_date")
-  imageUrl  String           @map("image_url")
-  status    NewMenuStatus    @default(WAITING)
-  createdAt DateTime         @default(now()) @map("created_at")
-  updatedAt DateTime         @updatedAt @map("updated_at")
-
-  @@map("new_menus")
-}
-
 enum NewMenuStatus {
   WAITING
   ACTIVE
   EXPIRED
-}
-
-// 매장
-model Store {
-  id              String          @id @default(cuid())
-  name            String
-  region          StoreRegion
-  address         String
-  additionalAddress String?       @map("additional_address")
-  phone           String
-  operatingStatus OperatingStatus @map("operating_status")
-  storeType       StoreType       @map("store_type")
-  options         StoreOption[]
-  images          String[]
-  createdAt       DateTime        @default(now()) @map("created_at")
-  updatedAt       DateTime        @updatedAt @map("updated_at")
-
-  eventStores EventStore[]
-
-  @@map("stores")
 }
 
 enum StoreRegion {
@@ -245,40 +259,8 @@ enum StoreOption {
   MOBILE_ORDER
 }
 
-// 이벤트
-model Event {
-  id              String        @id @default(cuid())
-  title           String
-  startDate       DateTime      @map("start_date")
-  endDate         DateTime      @map("end_date")
-  content         String
-  imageUrl        String        @map("image_url")
-  homepagePreview Boolean       @default(false) @map("homepage_preview")
-  status          EventStatus   @default(WAITING)
-  createdAt       DateTime      @default(now()) @map("created_at")
-  updatedAt       DateTime      @updatedAt @map("updated_at")
-
-  eventStores EventStore[]
-
-  @@map("events")
-}
-
 enum EventStatus {
   WAITING
   ACTIVE
   EXPIRED
-}
-
-// 이벤트-매장 중간 테이블
-model EventStore {
-  id       String @id @default(cuid())
-  eventId  String @map("event_id")
-  storeId  String @map("store_id")
-  isAllStores Boolean @default(false) @map("is_all_stores")
-
-  event Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
-  store Store @relation(fields: [storeId], references: [id], onDelete: Cascade)
-
-  @@unique([eventId, storeId])
-  @@map("event_stores")
 }
